@@ -113,7 +113,7 @@ Rect Position;
             Scorer.setTextSize(getHeight()/10);
             Scorer.setFakeBoldText(true);
             if(GameOver==1)
-                canvas.drawText("GAME OVER",getWidth()/2-Scorer.getTextSize()*4,0+getHeight()/10,Scorer);
+                canvas.drawText("GAME OVER",getWidth()/2-Scorer.getTextSize()*3,0+getHeight()/10,Scorer);
             else
                 canvas.drawText(String.valueOf(Score),getWidth()/2,0+getHeight()/10,Scorer);
 
