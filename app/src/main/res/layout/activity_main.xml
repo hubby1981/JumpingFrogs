@@ -1,0 +1,10 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"  tools:context=".MainActivity"
+    android:background="@drawable/normal_bg_game"
+    >
+
+<com.games.biitworx.jumpingfrogs.MainMenuView
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" />
+</RelativeLayout>
