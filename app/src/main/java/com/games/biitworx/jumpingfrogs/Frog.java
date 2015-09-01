@@ -211,7 +211,7 @@ if(DoSplash==1) {
             if (State == 6) {
                 State=7;
                 Splash.cancel();
-
+                callMove();
             }
             if (State == 5)
                 State = 6;
@@ -223,36 +223,14 @@ if(DoSplash==1) {
             callInvalidate(0);
 
 
+
         }
-    }, 0, 60);
+    }, 0, 80);
 }else
 {
     Score+=1;
     GameOver=0;
-    moveMaxX=(Position.left-LastX);
-    moveMaxX-=(moveMaxX/16);
-    Mover=new Timer();
-    Mover.schedule(new TimerTask() {
-        @Override
-        public void run() {
-            if(moveMaxX>0) {
-                moveMaxX -= 10;
-                Position.left-=10;
-                Position.right-=10;
-                X-=10;
-                callInvalidate(10);
-
-
-            }
-            else
-            {
-                Mover.cancel();
-                callInvalidate(0);
-
-
-            }
-        }
-    },0,10);
+    callMove();
 }
 
 
@@ -269,5 +247,32 @@ if(DoSplash==1) {
 
 
         return true;
+    }
+
+    private void callMove() {
+        moveMaxX=(Position.left-LastX);
+        moveMaxX-=(moveMaxX/16);
+        Mover=new Timer();
+        Mover.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if(moveMaxX>0) {
+                    moveMaxX -= 10;
+                    Position.left-=10;
+                    Position.right-=10;
+                    X-=10;
+                    callInvalidate(10);
+
+
+                }
+                else
+                {
+                    Mover.cancel();
+                    callInvalidate(0);
+
+
+                }
+            }
+        },0,10);
     }
 }
