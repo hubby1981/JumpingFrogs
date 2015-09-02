@@ -67,7 +67,7 @@ Rect Position;
 
         Drop = new Paint();
         Drop.setStyle(Paint.Style.STROKE);
-        Drop.setColor(Color.argb(225,0,100,0));
+        Drop.setColor(Color.argb(225,0,150,0));
         Drop.setAntiAlias(true);
         Drop.setStrokeCap(Paint.Cap.ROUND);
 
@@ -101,7 +101,7 @@ Rect Position;
 
                 int si = Charge + 5;
                 Drop.setStrokeWidth(Position.width() / 2);
-                Drop.setPathEffect(new DashPathEffect(new float[]{Position.width() / 2, Position.width()*2}, 0));
+                Drop.setPathEffect(new DashPathEffect(new float[]{Position.width() /8, Position.width()}, 0));
 
                 Path p = new Path();
                 p.moveTo(Position.exactCenterX(), Position.exactCenterY());
