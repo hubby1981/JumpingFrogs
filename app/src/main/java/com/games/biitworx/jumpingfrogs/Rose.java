@@ -19,7 +19,7 @@ public class Rose {
     int anim=0;
     int reverse=0;
     int move=RandomRange.getRandom(1,2);
-    int max= RandomRange.getRandom(1,4);
+    int max= RandomRange.getRandom(1,3);
 
     public Rose(Rect display)
     {
@@ -30,7 +30,7 @@ public class Rose {
             public void run() {
                 animate();
             }
-        },0,250);
+        },0,2000);
     }
 
     public void onDraw(Canvas canvas)

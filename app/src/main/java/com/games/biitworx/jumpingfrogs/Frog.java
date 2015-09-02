@@ -54,7 +54,7 @@ public int Score =0;
     Timer Mover;
 
     Timer Splash;
-
+Point MoveP;
     Paint Drop;
 Paint Scorer;
 Rect Position;
@@ -67,9 +67,10 @@ Rect Position;
 
         Drop = new Paint();
         Drop.setStyle(Paint.Style.STROKE);
-        Drop.setColor(Color.argb(170,0,200,0));
+        Drop.setColor(Color.argb(225,0,100,0));
         Drop.setAntiAlias(true);
         Drop.setStrokeCap(Paint.Cap.ROUND);
+
 
         Scorer=new Paint();
         Scorer.setColor(Color.argb(200,50,50,50));
@@ -100,7 +101,7 @@ Rect Position;
 
                 int si = Charge + 5;
                 Drop.setStrokeWidth(Position.width() / 2);
-                Drop.setPathEffect(new DashPathEffect(new float[]{Position.width() / 2, Position.width()}, 0));
+                Drop.setPathEffect(new DashPathEffect(new float[]{Position.width() / 2, Position.width()*2}, 0));
 
                 Path p = new Path();
                 p.moveTo(Position.exactCenterX(), Position.exactCenterY());
@@ -161,6 +162,7 @@ Rect Position;
                 Charge/=20;
                 MaxCharge=Charge/2;
 Move=0;
+                MoveP = getXFly(Position.centerX(),Position.centerY(),MovePoint.x,MovePoint.y);
                 Flyer=new Timer();
                 Flyer.schedule(new TimerTask() {
                     @Override
@@ -170,7 +172,7 @@ Move=0;
                         if(Charge>MaxCharge)
                         {
                             if(Charge-MaxCharge/10>MaxCharge) {
-                                Y -= Position.height() / 4;
+                                Y -= (Position.height() / 4);
                                 X += Position.height() / 4;
                                 State = 1;
                             }else
@@ -225,7 +227,7 @@ if(DoSplash==1) {
 
 
         }
-    }, 0, 80);
+    }, 0, 60);
 }else
 {
     Score+=1;
@@ -274,5 +276,27 @@ if(DoSplash==1) {
                 }
             }
         },0,10);
+    }
+
+
+    private Point getXFly(int x,int y,int x1,int y1)
+    {
+
+        int xw = x1-x;
+        xw/=2;
+        int yw = y1-y;
+        yw/=2;
+
+        x = xw/20;
+        y=yw/20;
+        if(x==0)x=1;
+        if(y==0)y=1;
+
+        if(x>8)x=8;
+        if(y>4)y=4;
+
+        return new Point(x,y);
+
+
     }
 }

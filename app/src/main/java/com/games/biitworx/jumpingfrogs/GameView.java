@@ -83,7 +83,9 @@ public class GameView extends View {
             for(Rose r:s.Roses)
                 if(!drop)
                 {
-                    if(r.Display.left<x && r.Display.right> x)
+                    int x1=r.Display.left+r.Display.width()/8;
+                    int y1=r.Display.right-r.Display.width()/8;
+                    if(x1<x && y1> x)
                         drop=true;
                 }
         return drop;
