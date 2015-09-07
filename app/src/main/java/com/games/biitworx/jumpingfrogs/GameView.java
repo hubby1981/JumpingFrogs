@@ -35,6 +35,9 @@ public class GameView extends View {
     public static Bitmap BackImage;
 
     public static Bitmap RoseImage;
+    public static Bitmap RetryButton;
+    public static Bitmap QuitButton;
+    public static Bitmap ShareButton;
 
     Rect Bounds;
 
@@ -53,6 +56,9 @@ public class GameView extends View {
         RoseImage = BitmapFactory.decodeResource(getResources(),R.drawable.rose);
         BackImage = BitmapFactory.decodeResource(getResources(),R.drawable.back_solo);
 
+        RetryButton = BitmapFactory.decodeResource(getResources(),R.drawable.retry);
+        QuitButton = BitmapFactory.decodeResource(getResources(),R.drawable.quit);
+        ShareButton = BitmapFactory.decodeResource(getResources(),R.drawable.share);
 
     }
 

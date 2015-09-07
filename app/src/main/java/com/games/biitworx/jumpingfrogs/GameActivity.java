@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,7 +19,13 @@ public class GameActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                findViewById(R.id.game_over).setVisibility(View.INVISIBLE);
 
+            }
+        });
 RosesAnim=new Timer();
         RosesAnim.schedule(new TimerTask() {
             @Override
@@ -57,6 +64,17 @@ RosesAnim=new Timer();
         }catch(Exception e){}
 
 
+    }
+
+    public void openGameOver()
+    {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                findViewById(R.id.game_over).setVisibility(View.VISIBLE);
+
+            }
+        });
     }
 
     public void updateEx(final int move)

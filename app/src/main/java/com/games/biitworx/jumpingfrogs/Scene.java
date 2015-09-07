@@ -51,7 +51,8 @@ public class Scene {
 
         ArrayList<Rect> roseRects = RectHandler.getGrid(1,9,RoseArea);
         for(Integer i :level.Roses)
-            Roses.add(new Rose(roseRects.get(i)));
+            if(roseRects.size()>i)
+                Roses.add(new Rose(roseRects.get(i)));
 
     }
 
