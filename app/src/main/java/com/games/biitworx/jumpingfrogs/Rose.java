@@ -18,9 +18,9 @@ public class Rose {
     Timer Anim;
     int anim=0;
     int reverse=0;
-    int move=RandomRange.getRandom(1,2);
-    int max= RandomRange.getRandom(1,3);
-
+    int move=RandomRange.getRandom(1,1);
+    int max= RandomRange.getRandom(2,4);
+int animM = RandomRange.getRandom(10,20);
     public Rose(Rect display)
     {
         Display = display;
@@ -30,7 +30,7 @@ public class Rose {
             public void run() {
                 animate();
             }
-        },0,2000);
+        },0,200);
     }
 
     public void onDraw(Canvas canvas)
@@ -53,7 +53,7 @@ public class Rose {
                     Display.right+= max;
                 }
             anim+=max;
-            if(anim>=10)
+            if(anim>=animM)
                 reverse=1;
         }
         else

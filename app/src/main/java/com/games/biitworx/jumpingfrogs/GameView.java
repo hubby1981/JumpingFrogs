@@ -15,6 +15,8 @@ import com.games.biitworx.jumpingfrogs.helper.RandomRange;
 import com.games.biitworx.jumpingfrogs.helper.RectHandler;
 import com.games.biitworx.jumpingfrogs.scenes.Scene0;
 import com.games.biitworx.jumpingfrogs.scenes.Scene1;
+import com.games.biitworx.jumpingfrogs.scenes.Scene2;
+import com.games.biitworx.jumpingfrogs.scenes.Scene3;
 
 import java.util.ArrayList;
 
@@ -93,9 +95,9 @@ public class GameView extends View {
 
     private Level getLevel()
     {
-        int level = RandomRange.getRandom(1,2);
+        int level = RandomRange.getRandom(1,4);
 
-        return level==2?new Scene1():new Scene0();
+        return level==4?new Scene3():level==3?new Scene2():level==2?new Scene1():new Scene0();
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)

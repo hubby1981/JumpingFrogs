@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.games.biitworx.jumpingfrogs.helper.BitmapHelper;
+import com.games.biitworx.jumpingfrogs.helper.RandomRange;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -168,24 +169,24 @@ Move=0;
                     @Override
                     public void run() {
                         Charge--;
-
+                        float ch= 4f;
                         if(Charge>MaxCharge)
                         {
                             if(Charge-MaxCharge/10>MaxCharge) {
-                                Y -= (Position.height() / 4);
-                                X += Position.height() / 4;
+                                Y -= (Position.height() / ch);
+                                X += (Position.height() / ch);
                                 State = 1;
                             }else
                             {
-                                X += Position.height() / 4;
+                                X += (Position.height() / ch);
                                 State = 2;
                             }
 
                         }
                         else {
 
-                            Y += Position.height() / 4;
-                            X += Position.height() / 4;
+                            Y += (Position.height() / ch);
+                            X += (Position.height() / ch);
                             State = 3;
 
                             if(Y>MaxY)
@@ -282,18 +283,34 @@ if(DoSplash==1) {
     private Point getXFly(int x,int y,int x1,int y1)
     {
 
-        int xw = x1-x;
-        xw/=2;
-        int yw = y1-y;
-        yw/=2;
+        x=x1-x;
+        y=y-y1;
 
-        x = xw/20;
-        y=yw/20;
-        if(x==0)x=1;
-        if(y==0)y=1;
+        if(x>y)
+        {
+            if(x/2>y)
+            {
+                x=8;
 
-        if(x>8)x=8;
-        if(y>4)y=4;
+            }else
+            {
+                x=4;
+            }
+            y=2;
+        }
+
+        if(y>x)
+        {
+            if(y/2>x)
+            {
+                y=8;
+
+            }else
+            {
+                y=4;
+            }
+            x=2;
+        }
 
         return new Point(x,y);
 
