@@ -20,7 +20,7 @@ public class Rose {
     int reverse=0;
     int move=RandomRange.getRandom(1,1);
     int max= RandomRange.getRandom(2,4);
-int animM = RandomRange.getRandom(10,20);
+    int animM = RandomRange.getRandom(10,20);
     public Rose(Rect display)
     {
         Display = display;
@@ -66,8 +66,10 @@ int animM = RandomRange.getRandom(10,20);
                     Display.right -= max;
                 }
             anim-=max;
-            if(anim<=0)
-                reverse=0;
+            if(anim<=0) {
+                reverse = 0;
+
+            }
         }
 
 

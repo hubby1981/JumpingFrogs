@@ -9,6 +9,6 @@ public class GameStat {
 
 
     public static Rect RoseStart;
-    public static Rect RoseEnd;
+
 
 }

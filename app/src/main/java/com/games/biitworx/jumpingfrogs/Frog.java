@@ -17,6 +17,7 @@ import android.view.View;
 
 import com.games.biitworx.jumpingfrogs.helper.BitmapHelper;
 import com.games.biitworx.jumpingfrogs.helper.RandomRange;
+import com.games.biitworx.jumpingfrogs.helper.RectHandler;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -112,12 +113,16 @@ Rect Position;
 
 
             }
-            Scorer.setTextSize(getHeight()/10);
+            Scorer.setTextSize(getHeight() / 10);
             Scorer.setFakeBoldText(true);
+            Scorer.setShadowLayer(10,10,10,Color.DKGRAY);
             if(GameOver==1)
                 canvas.drawText("GAME OVER",getWidth()/2-Scorer.getTextSize()*3,0+getHeight()/10,Scorer);
             else
+            {
+
                 canvas.drawText(String.valueOf(Score),getWidth()/2,0+getHeight()/10,Scorer);
+            }
 
             BitmapHelper.drawIn(canvas, Position, state);
         }catch(Exception e){}
@@ -169,7 +174,7 @@ Move=0;
                     @Override
                     public void run() {
                         Charge--;
-                        float ch= 4f;
+                        float ch= 3.4f;
                         if(Charge>MaxCharge)
                         {
                             if(Charge-MaxCharge/10>MaxCharge) {
@@ -228,7 +233,7 @@ if(DoSplash==1) {
 
 
         }
-    }, 0, 60);
+    }, 0, 125);
 }else
 {
     Score+=1;

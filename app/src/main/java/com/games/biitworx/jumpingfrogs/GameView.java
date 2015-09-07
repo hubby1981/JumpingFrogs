@@ -17,6 +17,9 @@ import com.games.biitworx.jumpingfrogs.scenes.Scene0;
 import com.games.biitworx.jumpingfrogs.scenes.Scene1;
 import com.games.biitworx.jumpingfrogs.scenes.Scene2;
 import com.games.biitworx.jumpingfrogs.scenes.Scene3;
+import com.games.biitworx.jumpingfrogs.scenes.Scene4;
+import com.games.biitworx.jumpingfrogs.scenes.Scene5;
+import com.games.biitworx.jumpingfrogs.scenes.Scene6;
 
 import java.util.ArrayList;
 
@@ -85,8 +88,8 @@ public class GameView extends View {
             for(Rose r:s.Roses)
                 if(!drop)
                 {
-                    int x1=r.Display.left+r.Display.width()/10;
-                    int y1=r.Display.right-r.Display.width()/10;
+                    int x1=r.Display.left+r.Display.width()/16;
+                    int y1=r.Display.right-r.Display.width()/16;
                     if(x1<x && y1> x)
                         drop=true;
                 }
@@ -95,9 +98,9 @@ public class GameView extends View {
 
     private Level getLevel()
     {
-        int level = RandomRange.getRandom(1,4);
+        int level = RandomRange.getRandom(1,7);
 
-        return level==4?new Scene3():level==3?new Scene2():level==2?new Scene1():new Scene0();
+        return level==7?new Scene6():level==6?new Scene5():level==5?new Scene4():level==4?new Scene3():level==3?new Scene2():level==2?new Scene1():new Scene0();
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
