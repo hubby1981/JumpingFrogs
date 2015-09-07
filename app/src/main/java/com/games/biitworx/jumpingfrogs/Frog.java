@@ -117,8 +117,8 @@ Rect Position;
             Scorer.setFakeBoldText(true);
             Scorer.setShadowLayer(10,10,10,Color.DKGRAY);
             if(GameOver==1)
-            //    canvas.drawText("GAME OVER",getWidth()/2-Scorer.getTextSize()*3,0+getHeight()/10,Scorer);
-            //else
+            canvas.drawText("GAME OVER",getWidth()/2-Scorer.getTextSize()*3,0+getHeight()/10,Scorer);
+            else
             {
 
                 canvas.drawText(String.valueOf(Score),getWidth()/2,0+getHeight()/10,Scorer);
@@ -212,7 +212,6 @@ Move=0;
 if(DoSplash==1) {
     Splash = new Timer();
     GameOver=1;
-    getContextEx().openGameOver();
     Splash.schedule(new TimerTask() {
         @Override
         public void run() {
@@ -220,7 +219,10 @@ if(DoSplash==1) {
             if (State == 6) {
                 State=7;
                 Splash.cancel();
+
+
                 callMove();
+                getContextEx().openGameOver();
             }
             if (State == 5)
                 State = 6;

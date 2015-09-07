@@ -28,7 +28,7 @@ public class GameOver extends View {
         Rect main = new Rect(0,0,getWidth(),getHeight());
 
         Paint back=new Paint();
-        back.setColor(Color.argb(200,20,30,20));
+        back.setColor(Color.argb(225,20,50,20));
         back.setStyle(Paint.Style.FILL);
 
         Paint text = new Paint();
@@ -39,6 +39,8 @@ public class GameOver extends View {
         ArrayList<Rect> all = RectHandler.getGrid(5,1,main);
 
         Rect textOver = RectHandler.getGrid(3,1,all.get(2)).get(1);
+        canvas.drawRect(main,back);
+
         canvas.drawText("GAME OVER", textOver.exactCenterX() - (int) (text.getTextSize() * 2.5f), textOver.exactCenterY(), text);
 
 
@@ -56,7 +58,6 @@ public class GameOver extends View {
         BitmapHelper.drawIn(canvas,shareButton,GameView.ShareButton);
         BitmapHelper.drawIn(canvas,quitButton,GameView.QuitButton);
 
-        canvas.drawRect(main,back);
     }
 
 
