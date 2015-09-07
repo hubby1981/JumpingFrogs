@@ -42,13 +42,13 @@ public class GameOver extends View {
         canvas.drawText("GAME OVER", textOver.exactCenterX() - (int) (text.getTextSize() * 2.5f), textOver.exactCenterY(), text);
 
 
-        Rect retry = RectHandler.getGrid(1,9,all.get(3)).get(3);
+        Rect retry = RectHandler.getGrid(1,9,all.get(3)).get(2);
 
         Rect retryButton=new Rect(retry.left,retry.top,retry.left+GameView.RetryButton.getWidth(),retry.top+GameView.RetryButton.getHeight());
-        Rect quit = RectHandler.getGrid(1,8,all.get(3)).get(4);
+        Rect quit = RectHandler.getGrid(1,9,all.get(3)).get(6);
 
         Rect quitButton=new Rect(quit.left,quit.top,quit.left+GameView.QuitButton.getWidth(),quit.top+GameView.QuitButton.getHeight());
-        Rect share = RectHandler.getGrid(1,8,all.get(3)).get(5);
+        Rect share = RectHandler.getGrid(1,9,all.get(3)).get(4);
 
         Rect shareButton=new Rect(share.left,share.top,share.left+GameView.ShareButton.getWidth(),share.top+GameView.ShareButton.getHeight());
 
