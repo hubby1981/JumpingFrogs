@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.games.biitworx.jumpingfrogs.helper.BitmapHelper;
+import com.games.biitworx.jumpingfrogs.helper.FontHelper;
 import com.games.biitworx.jumpingfrogs.helper.RandomRange;
 import com.games.biitworx.jumpingfrogs.helper.RectHandler;
 
@@ -45,7 +46,7 @@ public class Frog extends View {
     public int Move=0;
     public int moveMaxX=0;
     public Point MovePoint=new Point(0,0);
-public int Score =0;
+public static int Score =0;
     public int GameOver =0;
 
     public int MaxY=0;
@@ -77,6 +78,7 @@ Rect Position;
         Scorer=new Paint();
         Scorer.setColor(Color.argb(200,50,50,50));
         Scorer.setAntiAlias(true);
+        Score=0;
     }
 
     @Override
@@ -113,16 +115,13 @@ Rect Position;
 
 
             }
-            Scorer.setTextSize(getHeight() / 10);
+            Scorer.setTextSize(getHeight() / 8);
             Scorer.setFakeBoldText(true);
-            Scorer.setShadowLayer(10,10,10,Color.DKGRAY);
-            if(GameOver==1)
-            canvas.drawText("GAME OVER",getWidth()/2-Scorer.getTextSize()*3,0+getHeight()/10,Scorer);
-            else
-            {
+           //Scorer.setShadowLayer(10, 10, 10, Color.DKGRAY);
 
-                canvas.drawText(String.valueOf(Score),getWidth()/2,0+getHeight()/10,Scorer);
-            }
+
+                canvas.drawText(String.valueOf(Score), FontHelper.drawTextX(String.valueOf(Score),Scorer,getWidth()/2), 0 + getHeight() / 8, Scorer);
+
 
             BitmapHelper.drawIn(canvas, Position, state);
         }catch(Exception e){}
@@ -164,7 +163,10 @@ Rect Position;
             else if(event.getAction()==MotionEvent.ACTION_UP && Charge>0)
             {
 
+
                 Charge=MovePoint.x-Position.centerX();
+                if(Charge>=900)
+                    Charge = RandomRange.getRandom(750,850);
                 Charge/=20;
                 MaxCharge=Charge/2;
 Move=0;
@@ -193,7 +195,7 @@ Move=0;
                             Y += (Position.height() / ch);
                             X += (Position.height() / ch);
                             State = 3;
-
+                            getContextEx().takeScreen(State);
                             if(Y>MaxY)
                             {
                                 Charge=0;
@@ -212,27 +214,29 @@ Move=0;
 if(DoSplash==1) {
     Splash = new Timer();
     GameOver=1;
+
+
     Splash.schedule(new TimerTask() {
         @Override
         public void run() {
 
             if (State == 6) {
-                State=7;
+                State = 7;
                 Splash.cancel();
-
-
                 callMove();
-                getContextEx().openGameOver();
+
+
             }
             if (State == 5)
                 State = 6;
             if (State == 4)
                 State = 5;
+
             if (State == 0)
                 State = 4;
 
+            getContextEx().takeScreen(State);
             callInvalidate(0);
-
 
 
         }
@@ -284,6 +288,12 @@ if(DoSplash==1) {
                 else
                 {
                     Mover.cancel();
+
+                    if(GameOver==1)
+                    {
+
+                        getContextEx().openGameOver();
+                    }
                     callInvalidate(0);
 
 

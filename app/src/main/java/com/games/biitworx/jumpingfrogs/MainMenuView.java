@@ -25,6 +25,10 @@ public class MainMenuView extends View {
 
 
     private Rect ClickPlay;
+    private Rect ClickRate;
+    private Rect ClickAds;
+    private Rect ClickLeader;
+    private Rect ClickClose;
 
     public MainMenuView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -60,6 +64,10 @@ public class MainMenuView extends View {
 
 
         ClickPlay = secondButtons.get(2);
+        ClickLeader = secondButtons.get(3);
+        ClickAds = secondButtons.get(0);
+        ClickClose=secondButtons.get(4);
+        ClickRate=secondButtons.get(1);
 
 
         Bitmap play = BitmapFactory.decodeResource(getResources(), R.drawable.play);
@@ -68,19 +76,19 @@ public class MainMenuView extends View {
 
         Bitmap leader = BitmapFactory.decodeResource(getResources(),R.drawable.leader);
 
-        BitmapHelper.drawIn(canvas,secondButtons.get(3),leader,getHeight()/20);
+        BitmapHelper.drawIn(canvas,ClickLeader,leader,getHeight()/20);
 
         Bitmap ads = BitmapFactory.decodeResource(getResources(),R.drawable.ads);
 
-        BitmapHelper.drawIn(canvas,secondButtons.get(0),ads);
+        BitmapHelper.drawIn(canvas,ClickAds,ads);
 
         Bitmap rate = BitmapFactory.decodeResource(getResources(),R.drawable.rate);
 
-        BitmapHelper.drawIn(canvas,secondButtons.get(1),rate,getHeight()/20);
+        BitmapHelper.drawIn(canvas,ClickRate,rate,getHeight()/20);
 
         Bitmap close = BitmapFactory.decodeResource(getResources(),R.drawable.close);
 
-        BitmapHelper.drawIn(canvas,secondButtons.get(4),close);
+        BitmapHelper.drawIn(canvas,ClickClose,close);
     }
 
 
@@ -93,6 +101,10 @@ public class MainMenuView extends View {
                     MainActivity m = (MainActivity)getContext();
                     m.play();
             }
+        if (ClickClose.contains((int) event.getX(), (int) event.getY())) {
+
+            System.exit(0);
+        }
 
 
         return true;

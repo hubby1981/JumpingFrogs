@@ -45,7 +45,7 @@ public class GameView extends View {
     int X=0;
 
     ArrayList<Scene> Scenes;
-
+private int LastGameScene=-1;
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -105,7 +105,11 @@ public class GameView extends View {
     private Level getLevel()
     {
         int level = RandomRange.getRandom(1,7);
-
+        if(LastGameScene==-1)
+            level=1;
+        while(level==LastGameScene)
+            level = RandomRange.getRandom(1,7);
+        LastGameScene=level;
         return level==7?new Scene6():level==6?new Scene5():level==5?new Scene4():level==4?new Scene3():level==3?new Scene2():level==2?new Scene1():new Scene0();
     }
 
@@ -119,6 +123,9 @@ public class GameView extends View {
 
     }
 
+
+
+
     public void initGame()
     {
         Bounds=new Rect(0,0,getWidth(),getHeight());
@@ -126,7 +133,8 @@ public class GameView extends View {
 
         addScene(new Scene(recalculateBounds(),getLevel()));
         addScene(new Scene(recalculateBounds(),getLevel()));
-
+        addScene(new Scene(recalculateBounds(),getLevel()));
+        addScene(new Scene(recalculateBounds(),getLevel()));
         GameStat.RoseStart=Scenes.get(0).getFirstRose().Display;
 
     }
