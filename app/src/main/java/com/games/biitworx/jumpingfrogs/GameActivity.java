@@ -22,6 +22,8 @@ import com.facebook.share.ShareApi;
 import com.facebook.share.model.SharePhotoContent;
 import com.games.biitworx.jumpingfrogs.helper.BitmapHelper;
 import com.games.biitworx.jumpingfrogs.helper.FontHelper;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -85,24 +87,20 @@ RosesAnim=new Timer();
 
         manager.logInWithPublishPermissions(this, permissionNeeds);
 
-        manager.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
-        {
+        manager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
-            public void onSuccess(LoginResult loginResult)
-            {
-                ShareApi.share(content,null);
+            public void onSuccess(LoginResult loginResult) {
+                ShareApi.share(content, null);
                 closeMe();
             }
 
             @Override
-            public void onCancel()
-            {
+            public void onCancel() {
                 System.out.println("onCancel");
             }
 
             @Override
-            public void onError(FacebookException exception)
-            {
+            public void onError(FacebookException exception) {
                 System.out.println("onError");
             }
         });
@@ -161,22 +159,27 @@ RosesAnim=new Timer();
         Frog f = (Frog)findViewById(R.id.frog);
 
 
-        int x=600;
-        int y=600;
+        int x=(int)(f.getWidth()/4.5f);
+        int y=(int)(f.getHeight()/2.5f);
+
+        int w = (int)x/20;
+
         Bitmap d = Bitmap.createBitmap(x, y, Bitmap.Config.ARGB_4444);
         Bitmap d2 = Bitmap.createBitmap(x, y, Bitmap.Config.ARGB_4444);
-        Rect d1=new Rect(0+x/20,0+y/20,x-(x/20),y-y/5);
+        Rect d1=new Rect(0+x/w,0+y/w,x-(x/w),y-y/5);
 
-        Rect d11=new Rect(0+x/20,(0+y)-y/5,x-(x/20),y);
+        Rect d11=new Rect(0+x/w,(0+y)-y/5,x-(x/w),y);
 
 
         Canvas bits = new Canvas(d);
 
 
+        int xn = 0 - (f.Position.left-x/4);
+        int yn = (int)(0-(f.Position.top-y/1.6f));
 
-        bits.translate(0 - (f.Position.left-x/3),0-(f.Position.top-y/3));
+        bits.translate(xn,yn);
         bits.drawBitmap(a,0,0,null);
-        bits.drawBitmap(b,0,0,null);
+        bits.drawBitmap(b, 0, 0, null);
 
 
 
@@ -186,18 +189,39 @@ RosesAnim=new Timer();
         Paint p = new Paint();
         p.setColor(Color.WHITE);
 
+        Paint p3 = new Paint();
+        p3.setColor(Color.DKGRAY);
+        p3.setStyle(Paint.Style.STROKE);
+        p3.setStrokeWidth(2);
 
         bits2.drawRect(new Rect(0, 0, x, y), p);
-        BitmapHelper.drawIn(bits2,d1,d);
+        bits2.drawRect(new Rect(0, 0, x, y), p3);
 
-        String text = (String) android.text.format.DateFormat.format("yyyy-MM-dd",new Date())+" : "+String.valueOf(f.Score);
+        BitmapHelper.drawIn(bits2, d1, d);
+        bits2.drawRect(d1, p3);
+
+        String text = (String) android.text.format.DateFormat.format("yyyy-MM-dd hh:mm",new Date())+" : "+String.valueOf(f.Score);
         Paint p1 = new Paint();
         p1.setColor(Color.argb(255, 50,50,50));
         p1.setFakeBoldText(true);
         p1.setTextSize(d11.height()/2);
-        bits2.drawText(text, FontHelper.drawTextX(text, p1, d11.centerX()),d11.exactCenterY()-p1.getTextSize()/2,p1);
+        bits2.drawText(text, FontHelper.drawTextX(text, p1, d11.centerX()),d11.exactCenterY(),p1);
 
         return d2;
+    }
+
+    public void showAd()
+    {
+        if(MainActivity.readBuy(51)==0) {
+            findViewById(R.id.adView).setVisibility(View.VISIBLE);
+
+            AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+
+            adRequestBuilder.addTestDevice("2A399D156F5F2E0FEE7B0056DD3D0D56");
+            AdView view = (AdView) findViewById(R.id.adView);
+            AdRequest r = adRequestBuilder.build();
+            view.loadAd(r);
+        }
     }
 
     private Bitmap screenShot(View view) {
@@ -226,7 +250,7 @@ RosesAnim=new Timer();
             @Override
             public void run() {
                 findViewById(R.id.game_over).setVisibility(View.VISIBLE);
-
+                showAd();
             }
         });
     }

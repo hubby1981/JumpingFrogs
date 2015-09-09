@@ -2,21 +2,25 @@ package com.games.biitworx.jumpingfrogs;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.games.biitworx.jumpingfrogs.helper.BitmapHelper;
+import com.games.biitworx.jumpingfrogs.helper.FontHelper;
 import com.games.biitworx.jumpingfrogs.helper.RectHandler;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by WEIS on 31.08.2015.
@@ -49,7 +53,17 @@ public class MainMenuView extends View {
 
         Bitmap title= BitmapFactory.decodeResource(getResources(), R.drawable.title);
 
-        BitmapHelper.drawInPlus(canvas, RectHandler.getGrid(1, 3, RectHandler.getGrid(3, 1, top).get(1)).get(1), title, 2);
+        Paint text = new Paint();
+        text.setTextSize(getHeight() / 6);
+        text.setShadowLayer(3, 3, 3, Color.WHITE);
+        text.setStyle(Paint.Style.FILL);
+        text.setColor(Color.argb(255, 50, 100, 50));
+
+        Rect rcTitle =  RectHandler.getGrid(1, 3, RectHandler.getGrid(3, 1, top).get(1)).get(1);
+        BitmapHelper.drawInPlus(canvas, rcTitle, title, 2);
+
+        String score = "Best: "+String.valueOf(MainActivity.readHigh());
+        canvas.drawText(score,FontHelper.drawTextX(score,text,rcTitle.centerX()),(int)(rcTitle.bottom+text.getTextSize()),text);
 
         rcMain =  RectHandler.getGrid(3,1,main);
 
@@ -104,6 +118,24 @@ public class MainMenuView extends View {
         if (ClickClose.contains((int) event.getX(), (int) event.getY())) {
 
             System.exit(0);
+        }
+
+        if (ClickAds.contains((int) event.getX(), (int) event.getY())) {
+            MainActivity m = (MainActivity)getContext();
+            m.buy();
+        }
+
+        if(ClickRate.contains((int)event.getX(),(int)event.getY()))
+        {
+            MainActivity.sendTracking("Options", "Rate", "UX", "Rate the app "+ Locale.getDefault().getCountry());
+
+            final String appPackageName = getContext().getPackageName();
+            try {
+                getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
+
         }
 
 

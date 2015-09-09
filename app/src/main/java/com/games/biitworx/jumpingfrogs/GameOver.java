@@ -38,6 +38,11 @@ public class GameOver extends View {
     @Override
     protected void onDraw(Canvas canvas)
     {
+
+        if(MainActivity.readHigh()<Frog.Score)
+        {
+            MainActivity.saveHigh(Frog.Score);
+        }
         Rect main = new Rect(0,0,getWidth(),getHeight());
 
         Paint back=new Paint();
@@ -45,10 +50,10 @@ public class GameOver extends View {
         back.setStyle(Paint.Style.FILL);
 
         Paint text = new Paint();
-        text.setTextSize(getHeight() / 8);
-        text.setShadowLayer(10, 10, 10, Color.BLACK);
+        text.setTextSize(getHeight() / 12);
+        text.setShadowLayer(3, 3, 3, Color.DKGRAY);
         text.setStyle(Paint.Style.FILL);
-        text.setColor(Color.argb(255,50,255,200));
+        text.setColor(Color.argb(255,250,255,250));
         ArrayList<Rect> all = RectHandler.getGrid(5,1,main);
 
         Rect textOver = RectHandler.getGrid(3,1,all.get(2)).get(1);
@@ -71,13 +76,13 @@ public class GameOver extends View {
         {
             canvas.drawBitmap(ga.LastBitmap2, (main.centerX() - ga.LastBitmap2.getWidth() / 2), main.top + ga.LastBitmap2.getHeight() / 8, null);
         }
-        String text1="ROSES JUMPED: "+String.valueOf(Frog.Score);
+        String text1="BEST: "+String.valueOf(Frog.Score);
         String text0="GAME OVER";
         String text2="SPLASHED!";
-        canvas.drawText(text2, FontHelper.drawTextX(text2,text,(int)textOver.exactCenterX()), textOver.exactCenterY() - text.getTextSize()*3, text);
+        //canvas.drawText(text2, FontHelper.drawTextX(text2,text,(int)textOver.exactCenterX()), textOver.exactCenterY() - text.getTextSize()*3, text);
 
-        canvas.drawText(text0, FontHelper.drawTextX(text0,text,(int)textOver.exactCenterX()), textOver.exactCenterY() - text.getTextSize(), text);
-        canvas.drawText(text1, FontHelper.drawTextX(text1,text,(int)textOver.exactCenterX()), textOver.exactCenterY()-text.getTextSize()+text.getTextSize(), text);
+        //canvas.drawText(text0, FontHelper.drawTextX(text0,text,(int)textOver.exactCenterX()), textOver.exactCenterY() - text.getTextSize(), text);
+        canvas.drawText(text1, FontHelper.drawTextX(text1,text,(int)textOver.exactCenterX()), textOver.exactCenterY()-text.getTextSize()+text.getTextSize()*2, text);
 
 
         ClickRetry = RectHandler.getGrid(1,9,all.get(3)).get(2);

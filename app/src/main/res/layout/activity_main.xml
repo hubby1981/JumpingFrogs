@@ -1,10 +1,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"  tools:context=".MainActivity"
-    android:background="@drawable/normal_bg_game"
-    >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity"
+    android:background="@drawable/normal_bg_game">
 
 <com.games.biitworx.jumpingfrogs.MainMenuView
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-5070224682487021/4565425393">
+    </com.google.android.gms.ads.AdView>
 </RelativeLayout>
