@@ -143,6 +143,7 @@ public class GameOver extends View {
     public boolean onTouchEvent(MotionEvent event) {
 
        GameActivity context = (GameActivity) getContext();
+
         if(context!=null){
 
         if (ClickClose.contains((int) event.getX(), (int) event.getY())) {
@@ -151,13 +152,16 @@ public class GameOver extends View {
             if (ClickShare.contains((int) event.getX(), (int) event.getY())) {
                 SharePhoto photo = new SharePhoto.Builder().setBitmap(getContextEx().LastBitmap3).setCaption("Playing a good game on Jumping Frogs").build();
                 SharePhotoContent content = new SharePhotoContent.Builder().addPhoto(photo).build();
+                MainActivity.sendTracking("Game Over", "info", "UX", "sharing photo on facebook");
 
                 getContextEx().publish(content);
 
             }
         if (ClickRetry.contains((int) event.getX(), (int) event.getY())) {
             context.closeMeEx();
-    }}
+            MainActivity.sendTracking("Game Over", "info", "UX", "Game Retry");
+
+        }}
 
         return true;
     }
