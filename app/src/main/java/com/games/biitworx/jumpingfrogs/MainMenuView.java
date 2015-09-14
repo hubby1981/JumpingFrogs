@@ -93,9 +93,9 @@ public class MainMenuView extends View {
         BitmapHelper.drawIn(canvas,ClickLeader,leader,getHeight()/20);
 
         Bitmap ads = BitmapFactory.decodeResource(getResources(),R.drawable.ads);
-
-        BitmapHelper.drawIn(canvas,ClickAds,ads);
-
+        if(MainActivity.readBuy(51)==0) {
+            BitmapHelper.drawIn(canvas, ClickAds, ads);
+        }
         Bitmap rate = BitmapFactory.decodeResource(getResources(),R.drawable.rate);
 
         BitmapHelper.drawIn(canvas,ClickRate,rate,getHeight()/20);

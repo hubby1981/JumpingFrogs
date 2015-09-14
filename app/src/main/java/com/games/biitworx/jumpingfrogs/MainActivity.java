@@ -4,31 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
-import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.games.biitworx.jumpingfrogs.helper.util.ShopHelperFlyer;
+import com.games.biitworx.jumpingfrogs.helper.util.IabHelper;
+import com.games.biitworx.jumpingfrogs.helper.util.IabResult;
+import com.games.biitworx.jumpingfrogs.helper.util.Inventory;
+import com.games.biitworx.jumpingfrogs.helper.util.Purchase;
+import com.games.biitworx.jumpingfrogs.helper.util.SkuDetails;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class MainActivity extends Activity {
@@ -40,7 +32,6 @@ public class MainActivity extends Activity {
     public static Tracker tracker;
     public static SharedPreferences Preferences;
 
-    private ShopHelperFlyer Shop;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +39,15 @@ public class MainActivity extends Activity {
         analytics.setLocalDispatchPeriod(1080);
 
         tracker = analytics.newTracker(KEY2);
+        tracker.enableAdvertisingIdCollection(true);
         tracker.enableExceptionReporting(true);
         tracker.enableAdvertisingIdCollection(true);
         tracker.enableAutoActivityTracking(true);
         setContentView(R.layout.activity_main);
+        init();
         FacebookSdk.sdkInitialize(getApplicationContext());
         Preferences=getSharedPreferences(TXT.KEY_GLOBAL, Context.MODE_PRIVATE);
-        Shop=new ShopHelperFlyer(this);
+
 
 
 
@@ -81,6 +74,147 @@ showAd();
 
     }
 
+    public void init()
+    {
+        mHelper = new IabHelper(this, MainActivity.KEY);
+
+
+        mHelper.startSetup(new
+                                   IabHelper.OnIabSetupFinishedListener() {
+                                       public void onIabSetupFinished(IabResult result) {
+                                           if (result.isSuccess()) {
+                                               CanBuy=true;
+                                               ArrayList<String> l = new ArrayList<String>();
+
+                                               l.add(SKU_BUY7);
+                                               MainActivity.sendTracking("Shop", "shop", "UX", "open shop");
+
+                                           }
+                                           else
+
+                                           {
+                                               MainActivity.sendTracking("Error Shop", "shop", "UX", "open shop " + result.getMessage());
+                                           }
+                                       }
+                                   });
+    }
+
+
+    public  String Price7=null;
+
+
+
+    public  String SKU_BUY7="noads";
+
+
+    public  int SKU_CODE_BUY7=51;
+
+
+    public  int SKU_CODE2_BUY7=51;
+
+
+    public String getPrice(int code)
+    {
+
+        if(code==7)return Price7;
+        return "0.99";
+    }
+
+
+
+    public final String TAG ="com.games.billing";
+
+    IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener
+            = new IabHelper.OnIabPurchaseFinishedListener() {
+        public void onIabPurchaseFinished(IabResult result,
+                                          Purchase purchase)
+        {
+            if (result.isFailure()) {
+                // Handle error
+                MainActivity.sendTracking("Shop", "buy", "ERROR", result.getMessage());
+                return;
+            }
+            else {
+                MainActivity.sendTracking("Shop", "buy", "Consume",result.getMessage());
+                mHelper.consumeAsync(purchase, mConsumeFinishedListener);
+            }
+
+        }
+    };
+
+    public IabHelper mHelper;
+    public static boolean CanBuy=false;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (mHelper != null) {
+            mHelper.dispose();
+            mHelper = null;
+        }
+    }
+
+
+
+    IabHelper.OnConsumeFinishedListener mConsumeFinishedListener =
+            new IabHelper.OnConsumeFinishedListener() {
+                public void onConsumeFinished(Purchase purchase,
+                                              IabResult result) {
+
+                    if (result.isSuccess()) {
+                        MainActivity.sendTracking("Shop", "buy", "SUCCESS CONSUME",result.getMessage());
+                        if (purchase.getSku().equals(SKU_BUY7)) {
+
+                            MainActivity.saveBuy(SKU_CODE_BUY7,SKU_CODE2_BUY7);
+                        }
+
+                    }
+
+
+                    else {
+                        // handle error
+                        MainActivity.sendTracking("Shop", "buy", "ERROR CONSUME",result.getMessage());
+                    }
+                }
+            };
+
+
+    public void buyNoAds()
+    {
+        try{
+            MainActivity.sendTracking("Shop", "buy", "UX", "no ads");
+
+            mHelper.launchPurchaseFlow(this,SKU_BUY7,SKU_CODE_BUY7,mPurchaseFinishedListener);
+        }
+        catch(Exception e){
+            MainActivity.sendTracking("Shop", "buy", "ERROR CALL7",e.getMessage());
+            mHelper.dispose();
+            init();
+            try
+            {
+                mHelper.launchPurchaseFlow(this,SKU_BUY7,SKU_CODE_BUY7,mPurchaseFinishedListener);
+
+            }catch (Exception e2){}
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (mHelper == null) return;
+
+        // Pass on the activity result to the helper for handling
+        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
+            // not handled, so handle it ourselves (here's where you'd
+            // perform any handling of activity results not related to in-app
+            // billing...
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+        else {
+            Log.d(TAG, "onActivityResult handled by IABUtil.");
+        }
+    }
+
     public void showAd()
     {
         if(MainActivity.readBuy(51)==0) {
@@ -99,7 +233,7 @@ public void buy()
 {
     try
     {
-        Shop.buyNoAds();
+        buyNoAds();
     }catch(Exception e){}
 }
 
