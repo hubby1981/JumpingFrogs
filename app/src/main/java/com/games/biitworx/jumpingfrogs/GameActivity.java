@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.apptracker.android.track.AppTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -221,6 +222,8 @@ RosesAnim=new Timer();
             AdView view = (AdView) findViewById(R.id.adView);
             AdRequest r = adRequestBuilder.build();
             view.loadAd(r);
+
+            AppTracker.loadModule(getApplicationContext(),"inapp");
         }
     }
 

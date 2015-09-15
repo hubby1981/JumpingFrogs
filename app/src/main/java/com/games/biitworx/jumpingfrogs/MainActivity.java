@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.apptracker.android.track.AppTracker;
 import com.facebook.FacebookSdk;
 import com.games.biitworx.jumpingfrogs.helper.util.IabHelper;
 import com.games.biitworx.jumpingfrogs.helper.util.IabResult;
@@ -27,6 +28,7 @@ public class MainActivity extends Activity {
 
     public static String KEY="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnT9RBmKLdMWNN3+NOZDuvsS6aGTLXDS9nG9lOhh8NgTwQJnPJVPITCpA0qou6xvdDAiAhfSMWkptVpZrAN8uO75ARW8A/jbj8k+1ZkUk6wdfltAUWKkSkOqTabH12ZQU3iwGHNCia5HZO4AS78iaIErMIYxnCv7V/+JJ/U3vODyBHGcYR5rfRU0tnFlkFuE5Vl0fqQ376YJe65owzQXErP2Ltr1qADATf7bGnK4OhWO9G7iwcbnF9nCJuE1kRer60hkz/xF5a1Egf/EyVk7FERZIV8WYWvILy7/6QZGVG4/VJde3DGis2zv8CaJ8OU7OgLnDL+bQ8mtBZipMpyLT0QIDAQAB";
     public static String KEY2="UA-65112560-4";
+    public static String LEADBOLT_KEY="Vnr6ApB8jLL2LkHitqqak4VmmjdSYWzY";
     public static Intent GA;
     public static GoogleAnalytics analytics;
     public static Tracker tracker;
@@ -48,7 +50,7 @@ public class MainActivity extends Activity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         Preferences=getSharedPreferences(TXT.KEY_GLOBAL, Context.MODE_PRIVATE);
 
-
+        AppTracker.startSession(getApplicationContext(),LEADBOLT_KEY);
 
 
         sendTracking("Main", "info", "UX", "start app");
@@ -84,10 +86,8 @@ showAd();
                                        public void onIabSetupFinished(IabResult result) {
                                            if (result.isSuccess()) {
                                                CanBuy=true;
-                                               ArrayList<String> l = new ArrayList<String>();
 
-                                               l.add(SKU_BUY7);
-                                               MainActivity.sendTracking("Shop", "shop", "UX", "open shop");
+                                               MainActivity.sendTracking("Shop", "shop", "UX", "open shop ok");
 
                                            }
                                            else

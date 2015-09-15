@@ -71,6 +71,12 @@
         <provider android:authorities="com.facebook.app.FacebookContentProvider1473721239622079"
             android:name="com.facebook.FacebookContentProvider"
             android:exported="true"/>
+
+        <activity android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+        android:name="com.apptracker.android.module.AppModuleActivity"
+        android:hardwareAccelerated="false">
+    </activity>
+
     </application>
 
 
