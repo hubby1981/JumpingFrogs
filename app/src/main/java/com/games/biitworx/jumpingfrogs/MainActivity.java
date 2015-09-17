@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
         tracker.enableAdvertisingIdCollection(true);
         tracker.enableAutoActivityTracking(true);
         setContentView(R.layout.activity_main);
-        init();
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         Preferences=getSharedPreferences(TXT.KEY_GLOBAL, Context.MODE_PRIVATE);
 
@@ -88,6 +88,7 @@ showAd();
                                                CanBuy=true;
 
                                                MainActivity.sendTracking("Shop", "shop", "UX", "open shop ok");
+                                               buyAds();
 
                                            }
                                            else
@@ -120,6 +121,13 @@ showAd();
         return "0.99";
     }
 
+
+    private void buyAds()
+    {
+        MainActivity.sendTracking("Shop", "buy", "UX", "no ads");
+
+        mHelper.launchPurchaseFlow(this,SKU_BUY7,SKU_CODE_BUY7,mPurchaseFinishedListener);
+    }
 
 
     public final String TAG ="com.games.billing";
@@ -167,6 +175,8 @@ showAd();
 
                             MainActivity.saveBuy(SKU_CODE_BUY7,SKU_CODE2_BUY7);
                         }
+                        mHelper.dispose();
+                        mHelper=null;
 
                     }
 
@@ -181,21 +191,7 @@ showAd();
 
     public void buyNoAds()
     {
-        try{
-            MainActivity.sendTracking("Shop", "buy", "UX", "no ads");
-
-            mHelper.launchPurchaseFlow(this,SKU_BUY7,SKU_CODE_BUY7,mPurchaseFinishedListener);
-        }
-        catch(Exception e){
-            MainActivity.sendTracking("Shop", "buy", "ERROR CALL7",e.getMessage());
-            mHelper.dispose();
-            init();
-            try
-            {
-                mHelper.launchPurchaseFlow(this,SKU_BUY7,SKU_CODE_BUY7,mPurchaseFinishedListener);
-
-            }catch (Exception e2){}
-        }
+      init();
     }
 
     @Override
